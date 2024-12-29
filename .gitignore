@@ -1,0 +1,43 @@
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.vcxproj.filters
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]utput/
+packages/
+AppPackages/
+[Dd]eploy/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+
+*.log
+*.tmp
+*.obj
+*.pdb
+*.bak
+*.cache
+
+# Vim
+*.txt~
+*.swp
+*.swo
+/src/packages
+
+# Generated files
+*.g.h
+*.g.cpp
+*.pb.h
+*.pb.cc
+*.g.proto
