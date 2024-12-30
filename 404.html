@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Redirecting...</title>
-    <script>
+    <!--<script>
         // Redirect to the index.html for SPA routing
         const redirectTo = location.pathname.split('/').slice(0, -1).join('/');
         history.replaceState(null, null, location.origin + location.pathname);
         location.href = redirectTo;
-    </script>
+    </script>-->
 </head>
 <body>
     <h1>Redirecting...</h1>
     <p>If you are not redirected, <a id="redirect-link" href="/">click here</a>.</p>
     <script>
         // Update the link to fallback correctly
+        const redirectTo = location.pathname.split('/').slice(0, -1).join('/');
+        history.replaceState(null, null, location.origin + location.pathname);
         document.getElementById('redirect-link').href = redirectTo;
     </script>
 </body>
