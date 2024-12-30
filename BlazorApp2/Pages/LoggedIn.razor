@@ -1,4 +1,4 @@
-﻿@* @page "/authentication/login-callback"
+﻿@page "/authentication/login-callback"
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
@@ -21,14 +21,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(250);
-        await base.OnInitializedAsync();
-        StateHasChanged();
-        Navigation.NavigateTo("/");
+        // Here, you'd handle the Auth0 login callback and process the authentication state
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        // After processing, navigate within the SPA
+        Navigation.NavigateTo("/", true);
     }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     await Task.Delay(250);
+    //     await base.OnInitializedAsync();
+    //     StateHasChanged();
+    //     Navigation.NavigateTo("/");
+    // }
 
     // public void Dispose()
     // {
         
     // }
-} *@
+}
