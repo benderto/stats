@@ -1,15 +1,21 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="0; url=index.html">
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
     <script>
-        const pathname = window.location.pathname;
-        if (pathname !== "/") {
-            window.location.href = "/";
-        }
+        // Redirect to the index.html for SPA routing
+        const redirectTo = location.pathname.split('/').slice(0, -1).join('/') + '/index.html';
+        history.replaceState(null, null, location.origin + location.pathname);
+        location.href = redirectTo;
     </script>
 </head>
 <body>
-    <p>Redirecting...</p>
+    <h1>Redirecting...</h1>
+    <p>If you are not redirected, <a id="redirect-link" href="/">click here</a>.</p>
+    <script>
+        // Update the link to fallback correctly
+        document.getElementById('redirect-link').href = redirectTo;
+    </script>
 </body>
 </html>
