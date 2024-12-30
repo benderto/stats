@@ -1,21 +1,44 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.Extensions.Configuration
 
 @inject NavigationManager Navigation
 @inject IConfiguration Configuration
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<RemoteAuthenticatorView Action="@Action">
-    <LogOut>
-        @{
-            var authority = (string)Configuration["Auth0:Authority"];
-            var clientId = (string)Configuration["Auth0:ClientId"];
-
-            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
-        }
-    </LogOut>
-</RemoteAuthenticatorView>
+<RemoteAuthenticatorView Action="@Action" />
 
 @code {
     [Parameter] public string Action { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (!string.IsNullOrEmpty(Action))
+        {
+            if (Action == "logout")
+            {
+                var authority = (string)Configuration["Auth0:Authority"];
+                var clientId = (string)Configuration["Auth0:ClientId"];
+
+                Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
+            }
+            else if (Action == "login-callback")
+            {
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                // Example condition: Redirect if "action" is "redirectMe"
+                if (Action.Equals("redirectMe", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Use NavigationManager to navigate to a different page
+                    Navigation.NavigateTo("/another-page");
+                }
+            }
+        }
+
+    }
 }
