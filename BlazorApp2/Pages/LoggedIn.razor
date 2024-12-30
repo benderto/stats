@@ -1,0 +1,34 @@
+﻿@* @page "/authentication/login-callback"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+<h3>LoggedIn</h3>
+
+<AuthorizeView>
+    <Authorized>
+        Hello  @(context.User.Identity?.Name ?? string.Empty)
+    </Authorized>
+    <NotAuthorized>
+        Login first
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(250);
+        await base.OnInitializedAsync();
+        StateHasChanged();
+        Navigation.NavigateTo("/");
+    }
+
+    // public void Dispose()
+    // {
+        
+    // }
+} *@

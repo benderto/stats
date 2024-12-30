@@ -1,11 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
+@inject IConfiguration Configuration
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@implements IDisposable
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity?.Name ?? string.Empty
+        Hello, @(context.User.Identity?.Name ?? string.Empty)
         <a href="#" @onclick="BeginSignOut">Log out</a>
     </Authorized>
     <NotAuthorized>
@@ -14,8 +18,26 @@
 </AuthorizeView>
 
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        // AuthenticationStateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
+    }
+
+    private void OnAuthenticationStateChanged(Task<AuthenticationState> state)
+    {
+    }
+
     private void BeginSignOut(MouseEventArgs args)
     {
-        Navigation.NavigateTo("authentication/logout");
+        var authority = (string)Configuration["Auth0:Authority"];
+        var clientId = (string)Configuration["Auth0:ClientId"];
+
+        Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
+    }
+
+    public void Dispose()
+    {
+        // AuthenticationStateProvider.AuthenticationStateChanged -= OnAuthenticationStateChanged;
     }
 }
