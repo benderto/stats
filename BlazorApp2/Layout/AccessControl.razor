@@ -4,6 +4,7 @@
 @inject IConfiguration Configuration
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JSRuntime
 
 @implements IDisposable
 
@@ -28,12 +29,15 @@
     {
     }
 
-    private void BeginSignOut(MouseEventArgs args)
+    private async Task BeginSignOut(MouseEventArgs args)
     {
         var authority = (string)Configuration["Auth0:Authority"];
         var clientId = (string)Configuration["Auth0:ClientId"];
 
-        Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
+        Navigation.NavigateToLogout($"{authority}/v2/logout?client_id={clientId}");
+
+        await JSRuntime.InvokeVoidAsync("sessionStorage.clear");
+        Navigation.NavigateToLogout($"authentication/logout");
     }
 
     public void Dispose()
